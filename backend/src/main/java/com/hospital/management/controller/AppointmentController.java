@@ -11,12 +11,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(
+            AppointmentService appointmentService) {
+
         this.appointmentService = appointmentService;
     }
 
@@ -36,7 +39,10 @@ public class AppointmentController {
     public ResponseEntity<List<Appointment>> getAppointments(
             @RequestParam(required = false) Long patientId,
             @RequestParam(required = false) Long doctorId,
-            @RequestParam(required = false) LocalDate appointmentDate,
+            @RequestParam(
+                    name = "date",
+                    required = false
+            ) LocalDate appointmentDate,
             @RequestParam(required = false) String status) {
 
         if (patientId != null

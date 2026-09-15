@@ -1,0 +1,54 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8fafc;
+  color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  background: #1f2937;
+}
+
+.app-navigation button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: white;
+  font-size: 15px;
+}
+
+.app-navigation button:hover {
+  background: #374151;
+}
+
+@media (max-width: 768px) {
+  .app-navigation {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+  }
+
+  .app-navigation button {
+    flex: 1;
+    min-width: 120px;
+  }
+}

@@ -1,0 +1,126 @@
+.appointments-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.appointments-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.appointments-header h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  color: #1f2937;
+}
+
+.appointments-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.add-appointment-button {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.add-appointment-button:hover {
+  background: #1d4ed8;
+}
+
+.appointments-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 180px 180px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.appointments-toolbar input,
+.appointments-toolbar select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  outline: none;
+}
+
+.appointments-toolbar input:focus,
+.appointments-toolbar select:focus {
+  border-color: #2563eb;
+}
+
+.appointments-table-container {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.appointments-table th,
+.appointments-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.appointments-table th {
+  background: #f9fafb;
+  color: #374151;
+  font-size: 14px;
+}
+
+.appointments-table td {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.appointments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.appointments-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+@media (max-width: 900px) {
+  .appointments-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-page {
+    padding: 24px 16px;
+  }
+
+  .appointments-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .add-appointment-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .appointments-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
