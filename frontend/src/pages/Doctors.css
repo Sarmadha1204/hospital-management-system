@@ -105,4 +105,105 @@
   .add-doctor-button {
     width: 100%;
   }
+
+  .doctor-schedule-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.doctor-schedule-container {
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.doctor-schedule-header h2 {
+  margin: 0 0 6px;
+}
+
+.doctor-schedule-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.doctor-schedule-header button {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.doctor-schedule-table-container {
+  overflow-x: auto;
+}
+
+.doctor-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.doctor-schedule-table th,
+.doctor-schedule-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.doctor-schedule-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.doctor-schedule-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.doctor-schedule-actions button {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #374151;
+  color: white;
+  cursor: pointer;
+}
+
+.doctor-schedule-actions button:hover {
+  background: #1f2937;
+}
+
+@media (max-width: 768px) {
+  .doctor-schedule-container {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .doctor-schedule-table th,
+  .doctor-schedule-table td {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
 }

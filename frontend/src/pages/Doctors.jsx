@@ -3,6 +3,7 @@ import {
   getDoctors,
   deleteDoctor,
 } from "../services/doctorService";
+import { getDoctorAppointments } from "../services/doctorAppointmentService";
 import DoctorForm from "../components/DoctorForm";
 import "./Doctors.css";
 
@@ -13,6 +14,11 @@ function Doctors() {
   const [error, setError] = useState("");
   const [showDoctorForm, setShowDoctorForm] = useState(false);
   const [doctorToEdit, setDoctorToEdit] = useState(null);
+
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [doctorAppointments, setDoctorAppointments] = useState([]);
+  const [scheduleLoading, setScheduleLoading] = useState(false);
 
   useEffect(() => {
     loadDoctors();
@@ -62,6 +68,31 @@ function Doctors() {
     } catch (err) {
       setError(err.message);
     }
+  }
+
+  async function handleViewSchedule(doctor) {
+    try {
+      setScheduleLoading(true);
+      setError("");
+
+      const appointments = await getDoctorAppointments(
+        doctor.id
+      );
+
+      setSelectedDoctor(doctor);
+      setDoctorAppointments(appointments);
+      setShowSchedule(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setScheduleLoading(false);
+    }
+  }
+
+  function closeSchedule() {
+    setShowSchedule(false);
+    setSelectedDoctor(null);
+    setDoctorAppointments([]);
   }
 
   return (
@@ -135,6 +166,14 @@ function Doctors() {
 
                     <td>
                       <button
+                        onClick={() =>
+                          handleViewSchedule(doctor)
+                        }
+                      >
+                        Schedule
+                      </button>
+
+                      <button
                         onClick={() => handleEdit(doctor)}
                       >
                         Edit
@@ -170,6 +209,100 @@ function Doctors() {
             loadDoctors(specialization);
           }}
         />
+      )}
+
+      {showSchedule && selectedDoctor && (
+        <div className="doctor-schedule-overlay">
+          <div className="doctor-schedule-container">
+            <div className="doctor-schedule-header">
+              <div>
+                <h2>Appointment Schedule</h2>
+
+                <p>
+                  {selectedDoctor.doctorCode} -{" "}
+                  {selectedDoctor.name}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeSchedule}
+              >
+                ×
+              </button>
+            </div>
+
+            {scheduleLoading && (
+              <p>Loading appointment schedule...</p>
+            )}
+
+            {!scheduleLoading &&
+              doctorAppointments.length === 0 && (
+                <p>No appointments found for this doctor.</p>
+              )}
+
+            {!scheduleLoading &&
+              doctorAppointments.length > 0 && (
+                <div className="doctor-schedule-table-container">
+                  <table className="doctor-schedule-table">
+                    <thead>
+                      <tr>
+                        <th>Appointment Code</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {doctorAppointments.map(
+                        (appointment) => (
+                          <tr key={appointment.id}>
+                            <td>
+                              {appointment.appointmentCode}
+                            </td>
+
+                            <td>
+                              {appointment.patient
+                                ? `${appointment.patient.firstName} ${appointment.patient.lastName}`
+                                : "-"}
+                            </td>
+
+                            <td>
+                              {appointment.appointmentDate}
+                            </td>
+
+                            <td>
+                              {appointment.appointmentTime}
+                            </td>
+
+                            <td>
+                              {appointment.reason || "-"}
+                            </td>
+
+                            <td>
+                              {appointment.status || "-"}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+            <div className="doctor-schedule-actions">
+              <button
+                type="button"
+                onClick={closeSchedule}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

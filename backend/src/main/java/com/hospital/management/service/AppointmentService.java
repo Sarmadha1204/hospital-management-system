@@ -117,6 +117,19 @@ public class AppointmentService {
             );
         }
 
+        public List<Appointment> getAppointmentsByDoctorId(Long doctorId) {
+
+            if (!doctorRepository.existsById(doctorId)) {
+                throw new DoctorNotFoundException(
+                        "Doctor not found with id: " + doctorId
+                );
+            }
+
+            return appointmentRepository.findByDoctorIdOrderByAppointmentDateAscAppointmentTimeAsc(
+                    doctorId
+            );
+        }
+
     public Appointment getAppointmentById(Long id) {
 
         return appointmentRepository.findById(id)
