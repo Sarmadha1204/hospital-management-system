@@ -238,4 +238,18 @@ public class AppointmentService {
 
         appointmentRepository.deleteById(id);
     }
+
+    public Appointment cancelAppointment(Long id) {
+    Appointment appointment = appointmentRepository
+            .findById(id)
+            .orElseThrow(() ->
+                    new AppointmentNotFoundException(
+                            "Appointment not found with id: " + id
+                    )
+            );
+
+    appointment.setStatus("Cancelled");
+
+    return appointmentRepository.save(appointment);
+}
 }

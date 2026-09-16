@@ -2,22 +2,27 @@ import { useEffect, useState } from "react";
 import {
   getAppointments,
   deleteAppointment,
+  cancelAppointment,
 } from "../services/appointmentService";
 import AppointmentForm from "../components/AppointmentForm";
 import "./Appointments.css";
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
+
   const [filters, setFilters] = useState({
     patientId: "",
     doctorId: "",
     date: "",
     status: "",
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [showAppointmentForm, setShowAppointmentForm] =
     useState(false);
+
   const [appointmentToEdit, setAppointmentToEdit] =
     useState(null);
 
@@ -58,9 +63,29 @@ function Appointments() {
     setShowAppointmentForm(true);
   }
 
+  async function handleCancel(id) {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this appointment?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setError("");
+
+      await cancelAppointment(id);
+
+      await loadAppointments(filters);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   async function handleDelete(id) {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this appointment?"
+      "Are you sure you want to permanently delete this appointment?"
     );
 
     if (!confirmed) {
@@ -203,6 +228,17 @@ function Appointments() {
                       >
                         Edit
                       </button>
+
+                      {appointment.status?.toLowerCase() !==
+                        "cancelled" && (
+                        <button
+                          onClick={() =>
+                            handleCancel(appointment.id)
+                          }
+                        >
+                          Cancel
+                        </button>
+                      )}
 
                       <button
                         onClick={() =>

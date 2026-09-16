@@ -102,6 +102,34 @@ export async function updateAppointment(id, appointment) {
   return response.json();
 }
 
+export async function cancelAppointment(id) {
+  const response = await fetch(
+    `${API_BASE_URL}/${id}/cancel`,
+    {
+      method: "PUT",
+    }
+  );
+
+  if (!response.ok) {
+    const responseText = await response.text();
+
+    let errorMessage = "Failed to cancel appointment";
+
+    if (responseText) {
+      try {
+        const errorData = JSON.parse(responseText);
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        errorMessage = responseText;
+      }
+    }
+
+    throw new Error(errorMessage);
+  }
+
+  return response.json();
+}
+
 export async function deleteAppointment(id) {
   const response = await fetch(`${API_BASE_URL}/${id}`, {
     method: "DELETE",
