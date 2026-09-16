@@ -35,4 +35,55 @@
   .dashboard-cards {
     grid-template-columns: 1fr;
   }
+
+  .upcoming-appointments-section {
+  margin-top: 35px;
+}
+
+.upcoming-appointments-section h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.upcoming-appointments-table-container {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.upcoming-appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.upcoming-appointments-table th,
+.upcoming-appointments-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.upcoming-appointments-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.upcoming-appointments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .upcoming-appointments-section {
+    margin-top: 25px;
+  }
+
+  .upcoming-appointments-table th,
+  .upcoming-appointments-table td {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
 }
