@@ -45,4 +45,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("appointmentDate") LocalDate appointmentDate,
             @Param("status") String status
     );
+
+    List<Appointment> findByPatientIdOrderByAppointmentDateDescAppointmentTimeDesc(
+        Long patientId
+);
 }

@@ -105,4 +105,105 @@
   .add-patient-button {
     width: 100%;
   }
+
+  .patient-history-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.patient-history-container {
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.patient-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.patient-history-header h2 {
+  margin: 0 0 6px;
+}
+
+.patient-history-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.patient-history-header button {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.patient-history-table-container {
+  overflow-x: auto;
+}
+
+.patient-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.patient-history-table th,
+.patient-history-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.patient-history-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.patient-history-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.patient-history-actions button {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #374151;
+  color: white;
+  cursor: pointer;
+}
+
+.patient-history-actions button:hover {
+  background: #1f2937;
+}
+
+@media (max-width: 768px) {
+  .patient-history-container {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .patient-history-table th,
+  .patient-history-table td {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
 }

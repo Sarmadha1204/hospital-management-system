@@ -1,6 +1,8 @@
 package com.hospital.management.controller;
 
+import com.hospital.management.entity.Appointment;
 import com.hospital.management.entity.Patient;
+import com.hospital.management.service.AppointmentService;
 import com.hospital.management.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,14 @@ import java.util.List;
 public class PatientController {
 
     private final PatientService patientService;
+    private final AppointmentService appointmentService;
 
-    public PatientController(PatientService patientService) {
+    public PatientController(
+            PatientService patientService,
+            AppointmentService appointmentService) {
+
         this.patientService = patientService;
+        this.appointmentService = appointmentService;
     }
 
     @PostMapping
@@ -53,6 +60,16 @@ public class PatientController {
         Patient patient = patientService.getPatientById(id);
 
         return ResponseEntity.ok(patient);
+    }
+
+    @GetMapping("/{id}/appointments")
+    public ResponseEntity<List<Appointment>> getPatientAppointments(
+            @PathVariable Long id) {
+
+        List<Appointment> appointments =
+                appointmentService.getAppointmentsByPatientId(id);
+
+        return ResponseEntity.ok(appointments);
     }
 
     @PutMapping("/{id}")

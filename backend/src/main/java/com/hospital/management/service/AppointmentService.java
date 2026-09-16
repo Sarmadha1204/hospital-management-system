@@ -103,6 +103,20 @@ public class AppointmentService {
         );
     }
 
+    public List<Appointment> getAppointmentsByPatientId(Long patientId) {
+
+        if (!patientRepository.existsById(patientId)) {
+                throw new PatientNotFoundException(
+                        "Patient not found with id: " + patientId
+                );
+        }
+
+        return appointmentRepository
+            .findByPatientIdOrderByAppointmentDateDescAppointmentTimeDesc(
+                    patientId
+            );
+        }
+
     public Appointment getAppointmentById(Long id) {
 
         return appointmentRepository.findById(id)
