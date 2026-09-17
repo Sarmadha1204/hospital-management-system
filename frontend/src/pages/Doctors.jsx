@@ -12,6 +12,8 @@ function Doctors() {
   const [specialization, setSpecialization] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const [showDoctorForm, setShowDoctorForm] = useState(false);
   const [doctorToEdit, setDoctorToEdit] = useState(null);
 
@@ -30,6 +32,7 @@ function Doctors() {
       setError("");
 
       const data = await getDoctors(specializationValue);
+
       setDoctors(data);
     } catch (err) {
       setError(err.message);
@@ -42,10 +45,13 @@ function Doctors() {
     const value = event.target.value;
 
     setSpecialization(value);
+    setSuccess("");
+
     loadDoctors(value);
   }
 
   function handleEdit(doctor) {
+    setSuccess("");
     setDoctorToEdit(doctor);
     setShowDoctorForm(true);
   }
@@ -61,8 +67,11 @@ function Doctors() {
 
     try {
       setError("");
+      setSuccess("");
 
       await deleteDoctor(id);
+
+      setSuccess("Doctor deleted successfully.");
 
       await loadDoctors(specialization);
     } catch (err) {
@@ -74,6 +83,7 @@ function Doctors() {
     try {
       setScheduleLoading(true);
       setError("");
+      setSuccess("");
 
       const appointments = await getDoctorAppointments(
         doctor.id
@@ -106,6 +116,7 @@ function Doctors() {
         <button
           className="add-doctor-button"
           onClick={() => {
+            setSuccess("");
             setDoctorToEdit(null);
             setShowDoctorForm(true);
           }}
@@ -123,9 +134,15 @@ function Doctors() {
         />
       </div>
 
+      {success && (
+        <p className="success-message">
+          {success}
+        </p>
+      )}
+
       {loading && <p>Loading doctors...</p>}
 
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && (
         <div className="doctors-table-container">
@@ -203,9 +220,11 @@ function Doctors() {
             setDoctorToEdit(null);
           }}
           onDoctorCreated={() => {
+            setSuccess("Doctor created successfully.");
             loadDoctors(specialization);
           }}
           onDoctorUpdated={() => {
+            setSuccess("Doctor updated successfully.");
             loadDoctors(specialization);
           }}
         />
