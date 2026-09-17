@@ -12,6 +12,8 @@ function Patients() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [patientToEdit, setPatientToEdit] = useState(null);
 
@@ -30,6 +32,7 @@ function Patients() {
       setError("");
 
       const data = await getPatients(searchValue);
+
       setPatients(data);
     } catch (err) {
       setError(err.message);
@@ -42,10 +45,13 @@ function Patients() {
     const value = event.target.value;
 
     setSearch(value);
+    setSuccess("");
+
     loadPatients(value);
   }
 
   function handleEdit(patient) {
+    setSuccess("");
     setPatientToEdit(patient);
     setShowPatientForm(true);
   }
@@ -61,8 +67,11 @@ function Patients() {
 
     try {
       setError("");
+      setSuccess("");
 
       await deletePatient(id);
+
+      setSuccess("Patient deleted successfully.");
 
       await loadPatients(search);
     } catch (err) {
@@ -74,10 +83,9 @@ function Patients() {
     try {
       setHistoryLoading(true);
       setError("");
+      setSuccess("");
 
-      const appointments = await getPatientAppointments(
-        patient.id
-      );
+      const appointments = await getPatientAppointments(patient.id);
 
       setSelectedPatient(patient);
       setPatientAppointments(appointments);
@@ -106,6 +114,7 @@ function Patients() {
         <button
           className="add-patient-button"
           onClick={() => {
+            setSuccess("");
             setPatientToEdit(null);
             setShowPatientForm(true);
           }}
@@ -123,9 +132,15 @@ function Patients() {
         />
       </div>
 
+      {success && (
+        <p className="success-message">
+          {success}
+        </p>
+      )}
+
       {loading && <p>Loading patients...</p>}
 
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && (
         <div className="patients-table-container">
@@ -205,9 +220,11 @@ function Patients() {
             setPatientToEdit(null);
           }}
           onPatientCreated={() => {
+            setSuccess("Patient created successfully.");
             loadPatients(search);
           }}
           onPatientUpdated={() => {
+            setSuccess("Patient updated successfully.");
             loadPatients(search);
           }}
         />
