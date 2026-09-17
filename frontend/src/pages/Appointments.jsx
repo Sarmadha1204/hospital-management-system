@@ -19,6 +19,7 @@ function Appointments() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [showAppointmentForm, setShowAppointmentForm] =
     useState(false);
@@ -54,11 +55,13 @@ function Appointments() {
     };
 
     setFilters(updatedFilters);
+    setSuccess("");
 
     loadAppointments(updatedFilters);
   }
 
   function handleEdit(appointment) {
+    setSuccess("");
     setAppointmentToEdit(appointment);
     setShowAppointmentForm(true);
   }
@@ -74,8 +77,11 @@ function Appointments() {
 
     try {
       setError("");
+      setSuccess("");
 
       await cancelAppointment(id);
+
+      setSuccess("Appointment cancelled successfully.");
 
       await loadAppointments(filters);
     } catch (err) {
@@ -94,8 +100,11 @@ function Appointments() {
 
     try {
       setError("");
+      setSuccess("");
 
       await deleteAppointment(id);
+
+      setSuccess("Appointment deleted successfully.");
 
       await loadAppointments(filters);
     } catch (err) {
@@ -114,6 +123,7 @@ function Appointments() {
         <button
           className="add-appointment-button"
           onClick={() => {
+            setSuccess("");
             setAppointmentToEdit(null);
             setShowAppointmentForm(true);
           }}
@@ -158,9 +168,15 @@ function Appointments() {
         </select>
       </div>
 
+      {success && (
+        <p className="success-message">
+          {success}
+        </p>
+      )}
+
       {loading && <p>Loading appointments...</p>}
 
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && (
         <div className="appointments-table-container">
@@ -264,9 +280,11 @@ function Appointments() {
             setAppointmentToEdit(null);
           }}
           onAppointmentCreated={() => {
+            setSuccess("Appointment created successfully.");
             loadAppointments(filters);
           }}
           onAppointmentUpdated={() => {
+            setSuccess("Appointment updated successfully.");
             loadAppointments(filters);
           }}
         />
