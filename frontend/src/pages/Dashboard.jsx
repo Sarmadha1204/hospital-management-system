@@ -8,6 +8,12 @@ function Dashboard() {
     appointments: 0,
   });
 
+  const [statusCounts, setStatusCounts] = useState({
+    scheduled: 0,
+    completed: 0,
+    cancelled: 0,
+  });
+
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -22,16 +28,28 @@ function Dashboard() {
       setLoading(true);
       setError("");
 
-      const [countsResponse, appointmentsResponse] =
-        await Promise.all([
-          fetch("http://localhost:8080/api/dashboard/counts"),
-          fetch(
-            "http://localhost:8080/api/dashboard/upcoming-appointments"
-          ),
-        ]);
+      const [
+        countsResponse,
+        statusCountsResponse,
+        appointmentsResponse,
+      ] = await Promise.all([
+        fetch("http://localhost:8080/api/dashboard/counts"),
+        fetch(
+          "http://localhost:8080/api/dashboard/appointment-status-counts"
+        ),
+        fetch(
+          "http://localhost:8080/api/dashboard/upcoming-appointments"
+        ),
+      ]);
 
       if (!countsResponse.ok) {
         throw new Error("Failed to load dashboard counts");
+      }
+
+      if (!statusCountsResponse.ok) {
+        throw new Error(
+          "Failed to load appointment status counts"
+        );
       }
 
       if (!appointmentsResponse.ok) {
@@ -41,10 +59,13 @@ function Dashboard() {
       }
 
       const countsData = await countsResponse.json();
+      const statusCountsData =
+        await statusCountsResponse.json();
       const appointmentsData =
         await appointmentsResponse.json();
 
       setCounts(countsData);
+      setStatusCounts(statusCountsData);
       setUpcomingAppointments(appointmentsData);
     } catch (err) {
       setError(err.message);
@@ -77,6 +98,27 @@ function Dashboard() {
             <div className="dashboard-card">
               <h2>Appointments</h2>
               <p>{counts.appointments}</p>
+            </div>
+          </div>
+
+          <div className="appointment-status-section">
+            <h2>Appointment Status</h2>
+
+            <div className="appointment-status-cards">
+              <div className="appointment-status-card">
+                <h3>Scheduled</h3>
+                <p>{statusCounts.scheduled}</p>
+              </div>
+
+              <div className="appointment-status-card">
+                <h3>Completed</h3>
+                <p>{statusCounts.completed}</p>
+              </div>
+
+              <div className="appointment-status-card">
+                <h3>Cancelled</h3>
+                <p>{statusCounts.cancelled}</p>
+              </div>
             </div>
           </div>
 

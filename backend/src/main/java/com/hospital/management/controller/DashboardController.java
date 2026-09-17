@@ -45,6 +45,29 @@ public class DashboardController {
         return counts;
     }
 
+    @GetMapping("/appointment-status-counts")
+    public Map<String, Long> getAppointmentStatusCounts() {
+
+        Map<String, Long> statusCounts = new LinkedHashMap<>();
+
+        statusCounts.put(
+                "scheduled",
+                appointmentRepository.countByStatusIgnoreCase("Scheduled")
+        );
+
+        statusCounts.put(
+                "completed",
+                appointmentRepository.countByStatusIgnoreCase("Completed")
+        );
+
+        statusCounts.put(
+                "cancelled",
+                appointmentRepository.countByStatusIgnoreCase("Cancelled")
+        );
+
+        return statusCounts;
+    }
+
     @GetMapping("/upcoming-appointments")
     public List<Appointment> getUpcomingAppointments() {
 

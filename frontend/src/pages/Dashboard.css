@@ -31,12 +31,41 @@
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
-  .dashboard-cards {
-    grid-template-columns: 1fr;
-  }
+.appointment-status-section {
+  margin-top: 35px;
+}
 
-  .upcoming-appointments-section {
+.appointment-status-section h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.appointment-status-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.appointment-status-card {
+  padding: 20px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.appointment-status-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.appointment-status-card p {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.upcoming-appointments-section {
   margin-top: 35px;
 }
 
@@ -76,6 +105,18 @@
 }
 
 @media (max-width: 768px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-status-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-status-section {
+    margin-top: 25px;
+  }
+
   .upcoming-appointments-section {
     margin-top: 25px;
   }
@@ -85,5 +126,4 @@
     padding: 9px;
     font-size: 13px;
   }
-}
 }
